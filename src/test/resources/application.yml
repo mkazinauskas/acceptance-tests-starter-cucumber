@@ -1,0 +1,5 @@
+spring:
+  profiles:
+    active: test
+
+application.environment.url: http://dummy.restapiexample.com/api/v1/

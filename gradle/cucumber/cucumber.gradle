@@ -1,0 +1,34 @@
+task runCucumberTests {
+    dependsOn assemble, compileTestGroovy
+
+    doLast {
+        final String featuresPath = project.findProperty('featuresPath') ?: ''
+
+        final String selectedTags = project.findProperty('tags') ?: 'not @Ignore'
+
+        Task task = featureTask(featuresPath, selectedTags, sourceSets)
+        task.actions.each {
+            it.execute(task)
+        }
+    }
+}
+
+private Task featureTask(String featuresPath, String tags, SourceSetContainer sourceSets) {
+    List<String> featureArgs = [
+        '--plugin', 'html:build/test-reports',
+        '--plugin', 'pretty',
+        '--tags', tags,
+        '--glue', 'com.modzo.at',
+        '--strict',
+        "src/test/resources/features/${featuresPath}"
+    ]
+
+    logger.warn('Running with cucumber arguments: `{}`', featureArgs)
+
+    return tasks.create(name: 'ExecuteCucumberTests', type: JavaExec) {
+        main = 'io.cucumber.core.cli.Main'
+        classpath = sourceSets.test.runtimeClasspath
+        args = featureArgs
+        systemProperties = project.properties
+    }
+}
