@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/modestukasai/acceptance-tests-starter-cucumber.svg?branch=master)](https://travis-ci.org/modestukasai/acceptance-tests-starter-cucumber)
+
 # Acceptance test starter (Cucumber)
 
 ## How to run
